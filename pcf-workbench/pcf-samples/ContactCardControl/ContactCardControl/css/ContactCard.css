@@ -1,0 +1,305 @@
+/* ContactCardControl Styles */
+:root {
+  --card-bg: #ffffff;
+  --card-surface: #f8f8f8;
+  --card-border: #e2e2e2;
+  --card-text: #111111;
+  --card-text-secondary: #555555;
+  --card-text-muted: #999999;
+  --card-accent: #3b55e6;
+  --card-success: #16a34a;
+  --card-warning: #d97706;
+  --card-error: #dc2626;
+  --card-avatar-bg: #3b55e6;
+  --card-section-bg: #f4f4f4;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --card-radius: 12px;
+  --card-padding: 20px;
+}
+
+[data-theme="dark"] {
+  --card-bg: #1a1a1a;
+  --card-surface: #242424;
+  --card-border: #2a2a2a;
+  --card-text: #f0f0f0;
+  --card-text-secondary: #9a9a9a;
+  --card-text-muted: #555555;
+  --card-accent: #4f6ef7;
+  --card-success: #22c55e;
+  --card-warning: #f59e0b;
+  --card-error: #ef4444;
+  --card-avatar-bg: #4f6ef7;
+  --card-section-bg: #141414;
+  --card-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+[data-theme="compact"] {
+  --card-padding: 12px;
+  --card-radius: 8px;
+  --card-bg: #ffffff;
+  --card-surface: #f4f4f4;
+  --card-border: #e2e2e2;
+  --card-text: #111111;
+  --card-text-secondary: #555555;
+}
+
+.cc-container {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cc-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: var(--card-padding);
+  border-bottom: 1px solid var(--card-border);
+  background: var(--card-surface);
+}
+
+.cc-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--card-avatar-bg);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+  letter-spacing: -1px;
+}
+
+[data-theme="compact"] .cc-avatar {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+}
+
+.cc-header-info { flex: 1; min-width: 0; }
+
+.cc-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--card-text);
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-theme="compact"] .cc-name { font-size: 15px; }
+
+.cc-jobtitle {
+  font-size: 13px;
+  color: var(--card-text-secondary);
+  margin: 0;
+}
+
+.cc-account {
+  font-size: 12px;
+  color: var(--card-accent);
+  margin: 2px 0 0;
+  text-decoration: none;
+}
+
+.cc-body { padding: var(--card-padding); }
+
+.cc-contact-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.cc-contact-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: var(--card-section-bg);
+  border: 1px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.cc-contact-link {
+  color: var(--card-accent);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cc-contact-link:hover { text-decoration: underline; }
+
+.cc-section {
+  margin-top: 16px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.cc-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--card-section-bg);
+  border-bottom: 1px solid var(--card-border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--card-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cc-section-badge {
+  background: var(--card-accent);
+  color: white;
+  border-radius: 10px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.cc-record-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--card-border);
+  font-size: 12px;
+}
+.cc-record-item:last-child { border-bottom: none; }
+
+.cc-record-title {
+  font-weight: 500;
+  color: var(--card-text);
+  margin: 0 0 2px;
+}
+
+.cc-record-meta {
+  color: var(--card-text-muted);
+  font-size: 11px;
+}
+
+.cc-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+}
+.cc-status-active { background: rgba(34,197,94,0.15); color: var(--card-success); }
+.cc-status-inactive { background: rgba(239,68,68,0.15); color: var(--card-error); }
+.cc-status-resolved { background: rgba(79,110,247,0.15); color: var(--card-accent); }
+
+.cc-actions {
+  display: flex;
+  gap: 8px;
+  padding: var(--card-padding);
+  border-top: 1px solid var(--card-border);
+  flex-wrap: wrap;
+}
+
+.cc-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid var(--card-border);
+  background: var(--card-surface);
+  color: var(--card-text-secondary);
+  transition: all 0.15s;
+}
+.cc-btn:hover {
+  background: var(--card-section-bg);
+  color: var(--card-text);
+  border-color: var(--card-accent);
+}
+.cc-btn-primary {
+  background: var(--card-accent);
+  color: white;
+  border-color: var(--card-accent);
+}
+.cc-btn-primary:hover { opacity: 0.9; }
+
+.cc-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  color: var(--card-text-muted);
+}
+
+.cc-spinner {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--card-border);
+  border-top-color: var(--card-accent);
+  border-radius: 50%;
+  animation: cc-spin 0.8s linear infinite;
+  margin-bottom: 12px;
+}
+
+@keyframes cc-spin { to { transform: rotate(360deg); } }
+
+.cc-error {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 8px;
+  margin: 16px;
+  color: var(--card-error);
+  font-size: 13px;
+}
+
+.cc-enrichment-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.cc-enrichment-item {
+  padding: 8px 12px;
+  background: var(--card-bg);
+}
+.cc-enrichment-label {
+  font-size: 10px;
+  color: var(--card-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+.cc-enrichment-value {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--card-text);
+}
+
+.cc-no-data {
+  padding: 12px;
+  text-align: center;
+  color: var(--card-text-muted);
+  font-size: 12px;
+}

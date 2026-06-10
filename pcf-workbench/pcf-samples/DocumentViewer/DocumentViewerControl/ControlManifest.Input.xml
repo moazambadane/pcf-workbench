@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PCFSamples" constructor="DocumentViewerControl"
+		   version="1.0.0" display-name-key="DocumentViewerControl_Display_Key"
+		   description-key="DocumentViewerControl_Desc_Key"
+		   control-type="standard">
+
+	<!-- Regarding object id (the record whose annotations to show) -->
+	<property name="regardingId" display-name-key="RegardingId_Display_Key"
+			  description-key="RegardingId_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="true"
+			  default-value="00000000-0000-0000-0001-000000000001" />
+
+	<!-- Regarding entity logical name -->
+	<property name="regardingEntityName" display-name-key="RegardingEntityName_Display_Key"
+			  description-key="RegardingEntityName_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="false"
+			  default-value="account" />
+
+	<!-- Allow uploading new files -->
+	<property name="allowUpload" display-name-key="AllowUpload_Display_Key"
+			  description-key="AllowUpload_Desc_Key"
+			  of-type="TwoOptions" usage="input" required="false"
+			  default-value="true" />
+
+	<resources>
+	  <code path="index.ts" order="1" />
+	  <css path="css/DocumentViewer.css" order="1" />
+	</resources>
+
+	<feature-usage>
+	  <uses-feature name="WebAPI" required="true" />
+	  <uses-feature name="Device.pickFile" required="true" />
+	  <uses-feature name="Utility" required="true" />
+	</feature-usage>
+  </control>
+</manifest>

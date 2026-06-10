@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PCFSamples" constructor="TimelineFeedControl"
+		   version="1.0.0" display-name-key="TimelineFeedControl_Display_Key"
+		   description-key="TimelineFeedControl_Desc_Key"
+		   control-type="standard">
+
+	<!-- The regarding record id (e.g. the account/contact being viewed) -->
+	<property name="regardingId" display-name-key="RegardingId_Display_Key"
+			  description-key="RegardingId_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="true"
+			  default-value="00000000-0000-0000-0001-000000000001" />
+
+	<!-- The regarding entity logical name -->
+	<property name="regardingEntityName" display-name-key="RegardingEntityName_Display_Key"
+			  description-key="RegardingEntityName_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="false"
+			  default-value="account" />
+
+	<!-- Max activities to fetch per entity type -->
+	<property name="maxItems" display-name-key="MaxItems_Display_Key"
+			  description-key="MaxItems_Desc_Key"
+			  of-type="Whole.None" usage="input" required="false"
+			  default-value="20" />
+
+	<resources>
+	  <code path="index.ts" order="1" />
+	  <css path="css/TimelineFeed.css" order="1" />
+	</resources>
+
+	<feature-usage>
+	  <uses-feature name="WebAPI" required="true" />
+	  <uses-feature name="Utility" required="true" />
+	</feature-usage>
+  </control>
+</manifest>

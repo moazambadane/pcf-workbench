@@ -1,0 +1,219 @@
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Theme CSS variables ─────────────────────────────────────────────────── */
+
+/* Dark — refined blue-tinted darks with strong contrast hierarchy */
+:root,
+.dark {
+  --bg:          #0d1117;
+  --bg-2:        #161b22;
+  --bg-panel:    #0d1117;
+  --bg-elevated: #1c2128;
+  --border:      #30363d;
+  --border-2:    #484f58;
+  --text:        #e6edf3;
+  --text-2:      #8b949e;
+  --text-muted:  #484f58;
+  --accent:      #4f6ef7;
+  --success:     #3fb950;
+  --warning:     #d29922;
+  --error:       #f85149;
+}
+
+/* Light — unchanged */
+.light {
+  --bg:          #f5f5f5;
+  --bg-2:        #ffffff;
+  --bg-panel:    #fafafa;
+  --bg-elevated: #ffffff;
+  --border:      #e2e2e2;
+  --border-2:    #d0d0d0;
+  --text:        #111111;
+  --text-2:      #555555;
+  --text-muted:  #999999;
+  --accent:      #4f6ef7;
+  --success:     #16a34a;
+  --warning:     #d97706;
+  --error:       #dc2626;
+}
+
+/* Nord — arctic blue-gray, inspired by Nord color palette */
+.nord {
+  --bg:          #2e3440;
+  --bg-2:        #3b4252;
+  --bg-panel:    #2e3440;
+  --bg-elevated: #434c5e;
+  --border:      #4c566a;
+  --border-2:    #5e6779;
+  --text:        #eceff4;
+  --text-2:      #d8dee9;
+  --text-muted:  #7b88a1;
+  --accent:      #5e81ac;
+  --success:     #a3be8c;
+  --warning:     #ebcb8b;
+  --error:       #bf616a;
+}
+
+/* Solarized — warm cream with earthy tones */
+.solarized {
+  --bg:          #fdf6e3;
+  --bg-2:        #eee8d5;
+  --bg-panel:    #fdf6e3;
+  --bg-elevated: #eee8d5;
+  --border:      #d3cbb7;
+  --border-2:    #c4b99a;
+  --text:        #073642;
+  --text-2:      #586e75;
+  --text-muted:  #93a1a1;
+  --accent:      #268bd2;
+  --success:     #859900;
+  --warning:     #b58900;
+  --error:       #dc322f;
+}
+
+/* Midnight — deep navy/indigo with purple accents, premium feel */
+.midnight {
+  --bg:          #0b0e1a;
+  --bg-2:        #111630;
+  --bg-panel:    #0b0e1a;
+  --bg-elevated: #181d3a;
+  --border:      #252b50;
+  --border-2:    #363d6e;
+  --text:        #e4e6f0;
+  --text-2:      #9598b3;
+  --text-muted:  #525675;
+  --accent:      #7c6ef7;
+  --success:     #34d399;
+  --warning:     #fbbf24;
+  --error:       #f472b6;
+}
+
+/* Rose — soft blush pink with warm neutrals */
+.rose {
+  --bg:          #fdf2f4;
+  --bg-2:        #ffffff;
+  --bg-panel:    #fef7f8;
+  --bg-elevated: #ffffff;
+  --border:      #f5d5da;
+  --border-2:    #e8b4bd;
+  --text:        #1c1017;
+  --text-2:      #6b4c55;
+  --text-muted:  #b89aa3;
+  --accent:      #e11d48;
+  --success:     #15803d;
+  --warning:     #ca8a04;
+  --error:       #be123c;
+}
+
+/* Ocean — cool coastal blues, crisp and airy */
+.ocean {
+  --bg:          #f0f7ff;
+  --bg-2:        #ffffff;
+  --bg-panel:    #f5f9ff;
+  --bg-elevated: #ffffff;
+  --border:      #c7ddf5;
+  --border-2:    #a3c4e8;
+  --text:        #0c1929;
+  --text-2:      #3d6085;
+  --text-muted:  #8faec8;
+  --accent:      #0369a1;
+  --success:     #15803d;
+  --warning:     #b45309;
+  --error:       #b91c1c;
+}
+
+/* Sage — muted earthy greens, calm and natural */
+.sage {
+  --bg:          #f3f6f2;
+  --bg-2:        #ffffff;
+  --bg-panel:    #f7f9f6;
+  --bg-elevated: #ffffff;
+  --border:      #d0dcc9;
+  --border-2:    #b3c5a8;
+  --text:        #1a2216;
+  --text-2:      #4d6043;
+  --text-muted:  #94a88a;
+  --accent:      #3d7c47;
+  --success:     #15803d;
+  --warning:     #a16207;
+  --error:       #b91c1c;
+}
+
+/* Lavender — soft purple pastels, elegant and modern */
+.lavender {
+  --bg:          #f5f3ff;
+  --bg-2:        #ffffff;
+  --bg-panel:    #f9f7ff;
+  --bg-elevated: #ffffff;
+  --border:      #ddd6fe;
+  --border-2:    #c4b5fd;
+  --text:        #1e1538;
+  --text-2:      #5b4d8a;
+  --text-muted:  #a78bcc;
+  --accent:      #7c3aed;
+  --success:     #16a34a;
+  --warning:     #ca8a04;
+  --error:       #dc2626;
+}
+
+/* Sand — warm desert neutrals, refined and minimal */
+.sand {
+  --bg:          #f8f5f0;
+  --bg-2:        #ffffff;
+  --bg-panel:    #faf8f4;
+  --bg-elevated: #ffffff;
+  --border:      #e2d9cc;
+  --border-2:    #cfc2b0;
+  --text:        #292118;
+  --text-2:      #6e5d4b;
+  --text-muted:  #b0a08d;
+  --accent:      #b45309;
+  --success:     #15803d;
+  --warning:     #a16207;
+  --error:       #b91c1c;
+}
+
+@layer base {
+  html, body, #root {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+  }
+}
+
+@layer components {
+  .input-text {
+    @apply w-full px-2 py-1.5 rounded text-xs outline-none transition-colors;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .input-text:focus {
+    border-color: var(--accent);
+  }
+  .input-select {
+    @apply w-full px-2 py-1.5 rounded text-xs outline-none transition-colors;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+  }
+  .input-select:focus {
+    border-color: var(--accent);
+  }
+
+  /* Theme-aware utility classes */
+  .theme-bg        { background: var(--bg); }
+  .theme-bg-2      { background: var(--bg-2); }
+  .theme-bg-panel  { background: var(--bg-panel); }
+  .theme-elevated  { background: var(--bg-elevated); }
+  .theme-border    { border-color: var(--border); }
+  .theme-text      { color: var(--text); }
+  .theme-text-2    { color: var(--text-2); }
+  .theme-text-muted{ color: var(--text-muted); }
+}

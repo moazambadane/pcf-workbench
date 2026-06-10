@@ -1,0 +1,184 @@
+/* HierarchicalTreeControl — styles */
+.ht-root {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Header */
+.ht-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+}
+.ht-header-left { display: flex; align-items: center; gap: 10px; }
+.ht-header-icon { font-size: 20px; }
+.ht-header-title { font-size: 14px; font-weight: 600; color: #111; }
+.ht-header-subtitle { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+.ht-refresh-btn {
+  padding: 5px 12px;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  color: #374151;
+  transition: all 0.15s;
+}
+.ht-refresh-btn:hover { background: #e5e7eb; }
+
+/* Tree */
+.ht-tree {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0;
+  background: #fff;
+}
+
+/* Tree row */
+.ht-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background 0.08s;
+  user-select: none;
+  min-height: 32px;
+}
+.ht-row:hover { background: #f5f7ff; }
+.ht-row-selected { background: #eff6ff !important; }
+
+/* Chevron */
+.ht-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 8px;
+  color: #9ca3af;
+  transition: transform 0.15s;
+  flex-shrink: 0;
+}
+.ht-chevron-open { transform: rotate(90deg); color: #4f6ef7; }
+
+/* Node icon & label */
+.ht-node-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+.ht-node-label {
+  flex: 1;
+  font-size: 13px;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ht-child-count {
+  font-size: 10px;
+  color: #9ca3af;
+  margin-left: 4px;
+  flex-shrink: 0;
+}
+
+/* Children container */
+.ht-children {
+  /* no padding — depth is managed via inline paddingLeft */
+}
+
+/* Leaf hint */
+.ht-leaf-hint {
+  font-size: 11px;
+  color: #d1d5db;
+  padding: 4px 12px;
+  font-style: italic;
+}
+
+/* Empty / error */
+.ht-empty, .ht-error {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 12px;
+  color: #9ca3af;
+}
+.ht-error { color: #ef4444; }
+
+/* Skeleton */
+.ht-skeleton {
+  pointer-events: none;
+  animation: ht-pulse 1.5s ease-in-out infinite;
+}
+@keyframes ht-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.ht-sk-chevron {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 3px;
+}
+.ht-sk-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: #e5e7eb;
+  border-radius: 4px;
+}
+.ht-sk-label {
+  display: inline-block;
+  width: 120px;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 6px;
+}
+
+/* Context menu */
+.ht-ctx-menu {
+  position: fixed;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 9999;
+  min-width: 170px;
+  padding: 4px 0;
+  animation: ht-fadein 0.1s ease;
+}
+@keyframes ht-fadein { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+.ht-ctx-item {
+  display: block;
+  width: 100%;
+  padding: 7px 14px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 12px;
+  cursor: pointer;
+  color: #374151;
+  transition: background 0.08s;
+}
+.ht-ctx-item:hover { background: #f5f7ff; }
+.ht-ctx-danger { color: #dc2626; }
+.ht-ctx-danger:hover { background: #fef2f2; }
+.ht-ctx-divider {
+  height: 1px;
+  background: #f3f4f6;
+  margin: 4px 0;
+}
+
+.ht-hidden { display: none !important; }

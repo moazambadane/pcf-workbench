@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PCFSamples" constructor="SmartLookupControl"
+		   version="1.0.0" display-name-key="SmartLookupControl_Display_Key"
+		   description-key="SmartLookupControl_Desc_Key"
+		   control-type="standard">
+
+	<!-- The entity logical name to search (e.g. "contact", "account") -->
+	<property name="entityLogicalName" display-name-key="EntityLogicalName_Display_Key"
+			  description-key="EntityLogicalName_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="true"
+			  default-value="contact" />
+
+	<!-- Comma-separated fields to search against -->
+	<property name="searchFields" display-name-key="SearchFields_Display_Key"
+			  description-key="SearchFields_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="false"
+			  default-value="fullname,emailaddress1" />
+
+	<!-- Field to display as the primary label in results -->
+	<property name="primaryField" display-name-key="PrimaryField_Display_Key"
+			  description-key="PrimaryField_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="false"
+			  default-value="fullname" />
+
+	<!-- Output: selected record id -->
+	<property name="selectedId" display-name-key="SelectedId_Display_Key"
+			  description-key="SelectedId_Desc_Key"
+			  of-type="SingleLine.Text" usage="output" required="false" />
+
+	<!-- Output: selected record name -->
+	<property name="selectedName" display-name-key="SelectedName_Display_Key"
+			  description-key="SelectedName_Desc_Key"
+			  of-type="SingleLine.Text" usage="output" required="false" />
+
+	<resources>
+	  <code path="index.ts" order="1" />
+	  <css path="css/SmartLookup.css" order="1" />
+	</resources>
+
+	<feature-usage>
+	  <uses-feature name="WebAPI" required="true" />
+	  <uses-feature name="Utility" required="true" />
+	</feature-usage>
+  </control>
+</manifest>

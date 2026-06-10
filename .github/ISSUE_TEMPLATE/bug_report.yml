@@ -1,0 +1,37 @@
+name: 🐛 Bug Report
+description: Report a bug in PCF Workbench
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      value: |
+        1. Load control '...'
+        2. Click '...'
+        3. See error in '...'
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser & Version
+      placeholder: "Chrome 126, Edge 126"
+  - type: textarea
+    id: console
+    attributes:
+      label: Console Errors
+      description: Any errors in browser DevTools or the workbench Console panel?

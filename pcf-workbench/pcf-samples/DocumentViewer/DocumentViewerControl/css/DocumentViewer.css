@@ -1,0 +1,199 @@
+/* DocumentViewerControl — styles */
+.dv-root {
+  font-family: "Segoe UI", sans-serif;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Header */
+.dv-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  gap: 12px;
+}
+.dv-header-left { display: flex; align-items: center; gap: 10px; }
+.dv-header-icon { font-size: 20px; }
+.dv-header-title { font-size: 14px; font-weight: 600; color: #111; }
+.dv-header-subtitle { font-size: 11px; color: #9ca3af; margin-top: 1px; }
+
+.dv-upload-btn {
+  padding: 6px 14px;
+  background: #4f6ef7;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.dv-upload-btn:hover { background: #3b5ce5; }
+.dv-upload-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Layout */
+.dv-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* File list */
+.dv-list {
+  width: 260px;
+  flex-shrink: 0;
+  overflow-y: auto;
+  border-right: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+.dv-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background 0.1s;
+  position: relative;
+}
+.dv-list-item:hover { background: #f9fafb; }
+.dv-item-active { background: #eff6ff !important; }
+.dv-item-removing { opacity: 0; transition: opacity 0.3s; }
+
+.dv-item-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.dv-item-info { flex: 1; min-width: 0; }
+.dv-item-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #111;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dv-item-meta { font-size: 10px; color: #9ca3af; margin-top: 2px; }
+.dv-item-note {
+  font-size: 11px;
+  color: #6b7280;
+  margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dv-item-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.dv-list-item:hover .dv-item-actions { opacity: 1; }
+.dv-action-preview,
+.dv-action-delete {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  border-radius: 3px;
+  transition: background 0.1s;
+}
+.dv-action-preview:hover { background: #eff6ff; }
+.dv-action-delete:hover { background: #fee2e2; }
+
+/* Loading / empty / error */
+.dv-loading, .dv-empty, .dv-error {
+  padding: 24px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.dv-error { color: #ef4444; }
+
+/* Spinner */
+.dv-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2.5px solid #e5e7eb;
+  border-top-color: #4f6ef7;
+  border-radius: 50%;
+  animation: dv-spin 0.7s linear infinite;
+}
+@keyframes dv-spin { to { transform: rotate(360deg); } }
+
+/* Preview pane */
+.dv-preview {
+  flex: 1;
+  overflow: auto;
+  background: #f3f4f6;
+  display: flex;
+  flex-direction: column;
+}
+
+.dv-preview-header {
+  padding: 12px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+.dv-preview-title { font-size: 13px; font-weight: 600; color: #111; }
+.dv-preview-meta { font-size: 11px; color: #6b7280; margin-top: 3px; }
+
+.dv-preview-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #9ca3af;
+  font-size: 12px;
+  padding: 24px;
+  text-align: center;
+}
+.dv-preview-empty span { font-size: 40px; }
+.dv-note-text { color: #374151; font-size: 13px; max-width: 300px; }
+.dv-meta-gray { color: #9ca3af; font-size: 11px; }
+
+.dv-preview-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  padding: 16px;
+  display: block;
+  margin: 0 auto;
+}
+
+.dv-preview-pdf {
+  width: 100%;
+  flex: 1;
+  border: none;
+  min-height: 400px;
+}
+
+.dv-preview-text {
+  flex: 1;
+  padding: 16px;
+  font-family: "Consolas", "Fira Code", monospace;
+  font-size: 12px;
+  white-space: pre-wrap;
+  color: #374151;
+  background: #fff;
+  margin: 0;
+  overflow-y: auto;
+}

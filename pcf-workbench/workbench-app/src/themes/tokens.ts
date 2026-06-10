@@ -1,0 +1,33 @@
+﻿export const darkTokens = {
+  bgPrimary: "#0f0f0f",
+  bgSecondary: "#1a1a1a",
+  bgPanel: "#141414",
+  bgElevated: "#242424",
+  border: "#2a2a2a",
+  borderFocus: "#4f6ef7",
+  textPrimary: "#f0f0f0",
+  textSecondary: "#9a9a9a",
+  textMuted: "#555555",
+  accentPrimary: "#4f6ef7",
+  accentSuccess: "#22c55e",
+  accentWarning: "#f59e0b",
+  accentError: "#ef4444",
+  accentInfo: "#06b6d4",
+};
+
+export const lightTokens = {
+  bgPrimary: "#ffffff",
+  bgSecondary: "#f8f8f8",
+  bgPanel: "#f4f4f4",
+  bgElevated: "#ffffff",
+  border: "#e2e2e2",
+  borderFocus: "#3b55e6",
+  textPrimary: "#111111",
+  textSecondary: "#555555",
+  textMuted: "#999999",
+  accentPrimary: "#3b55e6",
+  accentSuccess: "#16a34a",
+  accentWarning: "#d97706",
+  accentError: "#dc2626",
+  accentInfo: "#0891b2",
+};

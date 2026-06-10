@@ -1,0 +1,11 @@
+# Code Owners
+# These users will be automatically requested for review on PRs
+
+# Default owner for everything
+* @moazambadane
+
+# Workbench app
+/pcf-workbench/workbench-app/ @moazambadane
+
+# PCF Samples
+/pcf-workbench/pcf-samples/ @moazambadane

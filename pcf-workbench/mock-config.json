@@ -1,0 +1,170 @@
+﻿{
+  "entities": {
+    "contact": [
+      {
+        "contactid": "00000000-0000-0000-0001-000000000001",
+        "fullname": "Sarah Connor",
+        "firstname": "Sarah",
+        "lastname": "Connor",
+        "emailaddress1": "sarah.connor@skynet.com",
+        "telephone1": "+1 (555) 100-0001",
+        "jobtitle": "Resistance Leader",
+        "statecode": 0,
+        "statuscode": 1,
+        "createdon": "2024-01-15T08:30:00Z"
+      },
+      {
+        "contactid": "00000000-0000-0000-0001-000000000002",
+        "fullname": "John Connor",
+        "firstname": "John",
+        "lastname": "Connor",
+        "emailaddress1": "john.connor@resistance.org",
+        "telephone1": "+1 (555) 100-0002",
+        "jobtitle": "Commander",
+        "statecode": 0,
+        "statuscode": 1,
+        "createdon": "2024-02-01T10:00:00Z"
+      },
+      {
+        "contactid": "00000000-0000-0000-0001-000000000003",
+        "fullname": "Miles Dyson",
+        "firstname": "Miles",
+        "lastname": "Dyson",
+        "emailaddress1": "m.dyson@cyberdyne.com",
+        "telephone1": "+1 (555) 100-0003",
+        "jobtitle": "Chief Engineer",
+        "statecode": 0,
+        "statuscode": 1,
+        "createdon": "2024-01-20T09:00:00Z"
+      }
+    ],
+    "account": [
+      {
+        "accountid": "00000000-0000-0000-0002-000000000001",
+        "name": "Cyberdyne Systems",
+        "accountnumber": "ACC-001",
+        "telephone1": "+1 (555) 200-0001",
+        "emailaddress1": "info@cyberdyne.com",
+        "websiteurl": "https://cyberdyne.com",
+        "address1_city": "Sunnyvale",
+        "statecode": 0
+      },
+      {
+        "accountid": "00000000-0000-0000-0002-000000000002",
+        "name": "Skynet Inc",
+        "accountnumber": "ACC-002",
+        "telephone1": "+1 (555) 200-0002",
+        "emailaddress1": "ops@skynet.com",
+        "websiteurl": "https://skynet.com",
+        "address1_city": "Los Angeles",
+        "statecode": 0
+      }
+    ],
+    "incident": [
+      {
+        "incidentid": "00000000-0000-0000-0005-000000000001",
+        "title": "Authentication failure on portal",
+        "ticketnumber": "CAS-10001",
+        "customerid": "00000000-0000-0000-0001-000000000001",
+        "statecode": 0,
+        "prioritycode": 1,
+        "createdon": "2024-03-01T09:00:00Z"
+      },
+      {
+        "incidentid": "00000000-0000-0000-0005-000000000002",
+        "title": "Data sync issue with backend",
+        "ticketnumber": "CAS-10002",
+        "customerid": "00000000-0000-0000-0001-000000000001",
+        "statecode": 1,
+        "prioritycode": 2,
+        "createdon": "2024-02-15T14:30:00Z"
+      }
+    ],
+    "task": [
+      {
+        "activityid": "00000000-0000-0000-0004-000000000001",
+        "subject": "Send quarterly report",
+        "description": "Prepare and send the Q1 quarterly report to all stakeholders",
+        "regardingobjectid": "00000000-0000-0000-0001-000000000001",
+        "scheduledend": "2024-04-30T17:00:00Z",
+        "statecode": 0,
+        "prioritycode": 2,
+        "createdon": "2024-03-15T10:00:00Z"
+      },
+      {
+        "activityid": "00000000-0000-0000-0004-000000000002",
+        "subject": "Schedule demo call",
+        "description": "Set up a 30-minute demo call with the development team",
+        "regardingobjectid": "00000000-0000-0000-0001-000000000001",
+        "scheduledend": "2024-04-15T14:00:00Z",
+        "statecode": 0,
+        "prioritycode": 1,
+        "createdon": "2024-03-20T11:00:00Z"
+      }
+    ]
+  },
+  "customActions": [
+    {
+      "actionName": "new_GetContactEnrichment",
+      "boundEntityName": "contact",
+      "mockResponse": {
+        "LinkedInProfile": "https://linkedin.com/in/sarah-connor",
+        "CompanySize": "500-1000 employees",
+        "Industry": "Defense & Aerospace",
+        "AnnualRevenue": 125000000,
+        "TechStack": ["Dynamics 365", "Azure", "Power Platform", "SQL Server"],
+        "LastInteraction": "2024-03-15T10:00:00Z",
+        "EngagementScore": 92,
+        "NPS": 9
+      },
+      "delay": 150
+    },
+    {
+      "actionName": "new_GetPCPChangeRequest",
+      "mockResponse": {
+        "MemberId": "M-100001",
+        "MemberName": "John Smith",
+        "CurrentPCP": "Dr. James Wilson",
+        "RequestedPCP": "Dr. Lisa Cuddy",
+        "RequestDate": "2024-01-20T10:00:00Z",
+        "Status": "Pending",
+        "EligibilityDate": "2024-02-01T00:00:00Z",
+        "Notes": "Member requested change due to provider network change"
+      },
+      "delay": 150
+    },
+    {
+      "actionName": "new_SendNotification",
+      "mockResponse": {
+        "Success": true,
+        "NotificationId": "NOTIF-20240315-001",
+        "SentAt": "2024-03-15T10:05:00Z",
+        "Channel": "Email",
+        "RecipientCount": 1
+      },
+      "delay": 200
+    }
+  ],
+  "globalOptionSets": {
+    "contact_gender": [
+      { "value": 1, "label": "Male" },
+      { "value": 2, "label": "Female" },
+      { "value": 3, "label": "Non-binary" },
+      { "value": 4, "label": "Prefer not to say" }
+    ],
+    "incident_priority": [
+      { "value": 1, "label": "High" },
+      { "value": 2, "label": "Normal" },
+      { "value": 3, "label": "Low" }
+    ]
+  },
+  "settings": {
+    "defaultDelay": 100,
+    "errorRate": 0,
+    "isOffline": false,
+    "userId": "{00000000-0000-0000-0000-000000000001}",
+    "userName": "Developer User",
+    "organizationName": "Mock Dynamics Org",
+    "languageId": 1033
+  }
+}

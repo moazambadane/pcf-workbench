@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PCFSamples" constructor="HierarchicalTreeControl"
+		   version="1.0.0" display-name-key="HierarchicalTreeControl_Display_Key"
+		   description-key="HierarchicalTreeControl_Desc_Key"
+		   control-type="standard">
+
+	<!-- Root record id to start the tree from -->
+	<property name="rootRecordId" display-name-key="RootRecordId_Display_Key"
+			  description-key="RootRecordId_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="true"
+			  default-value="00000000-0000-0000-0002-000000000001" />
+
+	<!-- Entity logical name (e.g. account) -->
+	<property name="entityLogicalName" display-name-key="EntityLogicalName_Display_Key"
+			  description-key="EntityLogicalName_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="false"
+			  default-value="account" />
+
+	<!-- The parent lookup field name on the entity (e.g. parentaccountid) -->
+	<property name="parentField" display-name-key="ParentField_Display_Key"
+			  description-key="ParentField_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="false"
+			  default-value="parentaccountid" />
+
+	<!-- The primary name field (e.g. name) -->
+	<property name="nameField" display-name-key="NameField_Display_Key"
+			  description-key="NameField_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="false"
+			  default-value="name" />
+
+	<!-- Output: last selected record id -->
+	<property name="selectedRecordId" display-name-key="SelectedRecordId_Display_Key"
+			  description-key="SelectedRecordId_Desc_Key"
+			  of-type="SingleLine.Text" usage="output" required="false" />
+
+	<resources>
+	  <code path="index.ts" order="1" />
+	  <css path="css/HierarchicalTree.css" order="1" />
+	</resources>
+
+	<feature-usage>
+	  <uses-feature name="WebAPI" required="true" />
+	  <uses-feature name="Navigation" required="true" />
+	  <uses-feature name="Utility" required="true" />
+	</feature-usage>
+  </control>
+</manifest>

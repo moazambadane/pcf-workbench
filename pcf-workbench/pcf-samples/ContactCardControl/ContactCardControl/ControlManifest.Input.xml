@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PCFSamples" constructor="ContactCardControl"
+           version="1.2.0" display-name-key="ContactCardControl_Display_Key"
+           description-key="ContactCardControl_Desc_Key"
+           control-type="standard">
+
+    <property name="contactId" display-name-key="ContactId_Display_Key"
+              description-key="ContactId_Desc_Key"
+              of-type="SingleLine.Text" usage="input" required="true"
+              default-value="00000000-0000-0000-0001-000000000001" />
+
+    <property name="showRelatedCases" display-name-key="ShowRelatedCases_Display_Key"
+              description-key="ShowRelatedCases_Desc_Key"
+              of-type="TwoOptions" usage="input" required="false" default-value="true" />
+
+    <property name="maxCasesToShow" display-name-key="MaxCasesToShow_Display_Key"
+              description-key="MaxCasesToShow_Desc_Key"
+              of-type="Whole.None" usage="input" required="false" default-value="5" />
+
+    <property name="selectedContactId" display-name-key="SelectedContactId_Display_Key"
+              description-key="SelectedContactId_Desc_Key"
+              of-type="SingleLine.Text" usage="output" required="false" />
+
+    <property name="cardTheme" display-name-key="CardTheme_Display_Key"
+              description-key="CardTheme_Desc_Key"
+              of-type-group="cardThemeGroup" usage="input" required="false" default-value="0" />
+
+    <type-group name="cardThemeGroup">
+      <type>Whole.None</type>
+    </type-group>
+
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/ContactCard.css" order="1" />
+    </resources>
+
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+      <uses-feature name="Device.captureImage" required="false" />
+      <uses-feature name="Utility" required="true" />
+    </feature-usage>
+  </control>
+</manifest>

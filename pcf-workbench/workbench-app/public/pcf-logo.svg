@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+	<linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+	  <stop offset="0%" style="stop-color:#6366f1"/>
+	  <stop offset="50%" style="stop-color:#4f6ef7"/>
+	  <stop offset="100%" style="stop-color:#3b82f6"/>
+	</linearGradient>
+	<linearGradient id="shimmer" x1="0%" y1="0%" x2="100%" y2="100%">
+	  <stop offset="0%" style="stop-color:rgba(255,255,255,0.15)"/>
+	  <stop offset="50%" style="stop-color:rgba(255,255,255,0)"/>
+	  <stop offset="100%" style="stop-color:rgba(255,255,255,0.08)"/>
+	</linearGradient>
+	<filter id="glow">
+	  <feGaussianBlur stdDeviation="2" result="blur"/>
+	  <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+	</filter>
+  </defs>
+
+  <!-- Background with rounded square -->
+  <rect width="128" height="128" rx="28" fill="url(#bgGrad)"/>
+  <rect width="128" height="128" rx="28" fill="url(#shimmer)"/>
+
+  <!-- Circuit/connector lines — tech feel -->
+  <g stroke="rgba(255,255,255,0.12)" stroke-width="1.5" fill="none">
+	<line x1="16" y1="20" x2="16" y2="40"/>
+	<line x1="16" y1="20" x2="30" y2="20"/>
+	<circle cx="16" cy="20" r="2.5" fill="rgba(255,255,255,0.2)"/>
+
+	<line x1="112" y1="108" x2="112" y2="88"/>
+	<line x1="112" y1="108" x2="98" y2="108"/>
+	<circle cx="112" cy="108" r="2.5" fill="rgba(255,255,255,0.2)"/>
+
+	<line x1="112" y1="20" x2="98" y2="20"/>
+	<line x1="112" y1="20" x2="112" y2="34"/>
+	<circle cx="112" cy="20" r="2.5" fill="rgba(255,255,255,0.2)"/>
+
+	<line x1="16" y1="108" x2="30" y2="108"/>
+	<line x1="16" y1="108" x2="16" y2="94"/>
+	<circle cx="16" cy="108" r="2.5" fill="rgba(255,255,255,0.2)"/>
+  </g>
+
+  <!-- Hexagonal frame behind text -->
+  <polygon points="64,22 104,42 104,86 64,106 24,86 24,42" fill="none" stroke="rgba(255,255,255,0.13)" stroke-width="1.5"/>
+  <polygon points="64,28 98,45 98,83 64,100 30,83 30,45" fill="rgba(0,0,0,0.12)" stroke="none"/>
+
+  <!-- "P" letter -->
+  <g filter="url(#glow)">
+	<text x="27" y="74" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="36" font-weight="800" fill="#ffffff" opacity="0.95">P</text>
+  </g>
+
+  <!-- "C" letter — center, slightly larger -->
+  <g filter="url(#glow)">
+	<text x="49" y="74" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="36" font-weight="800" fill="#ffffff">C</text>
+  </g>
+
+  <!-- "F" letter -->
+  <g filter="url(#glow)">
+	<text x="76" y="74" font-family="Inter, -apple-system, system-ui, sans-serif" font-size="36" font-weight="800" fill="#ffffff" opacity="0.95">F</text>
+  </g>
+
+  <!-- Accent bar under text -->
+  <rect x="34" y="82" width="60" height="3" rx="1.5" fill="rgba(255,255,255,0.5)"/>
+  <rect x="48" y="82" width="32" height="3" rx="1.5" fill="#ffffff" opacity="0.8"/>
+</svg>
