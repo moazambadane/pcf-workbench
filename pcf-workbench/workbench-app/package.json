@@ -18,7 +18,7 @@
     "lucide-react": "^0.344.0",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
-    "react-resizable-panels": "^2.0.0",
+    "react-resizable-panels": "^4.11.2",
     "uuid": "^11.1.1",
     "dayjs": "^1.11.10",
     "clsx": "^2.1.0",
