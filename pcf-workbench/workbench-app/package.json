@@ -15,7 +15,7 @@
     "@monaco-editor/react": "^4.6.0",
     "zustand": "^4.5.0",
     "framer-motion": "^11.0.0",
-    "lucide-react": "^0.344.0",
+    "lucide-react": "^1.17.0",
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
     "react-resizable-panels": "^2.0.0",
