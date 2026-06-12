@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="PCFSamples" constructor="AccountCardControl"
+		   version="1.0.0" display-name-key="AccountCardControl_Display_Key"
+		   description-key="AccountCardControl_Desc_Key"
+		   control-type="virtual">
+
+	<property name="accountId" display-name-key="AccountId_Display_Key"
+			  description-key="AccountId_Desc_Key"
+			  of-type="SingleLine.Text" usage="input" required="true"
+			  default-value="00000000-0000-0000-0002-000000000001" />
+
+	<property name="showRelatedContacts" display-name-key="ShowRelatedContacts_Display_Key"
+			  description-key="ShowRelatedContacts_Desc_Key"
+			  of-type="TwoOptions" usage="input" required="false" default-value="true" />
+
+	<property name="showRelatedOpportunities" display-name-key="ShowRelatedOpportunities_Display_Key"
+			  description-key="ShowRelatedOpportunities_Desc_Key"
+			  of-type="TwoOptions" usage="input" required="false" default-value="true" />
+
+	<property name="maxItemsToShow" display-name-key="MaxItemsToShow_Display_Key"
+			  description-key="MaxItemsToShow_Desc_Key"
+			  of-type="Whole.None" usage="input" required="false" default-value="5" />
+
+	<property name="selectedAccountId" display-name-key="SelectedAccountId_Display_Key"
+			  description-key="SelectedAccountId_Desc_Key"
+			  of-type="SingleLine.Text" usage="output" required="false" />
+
+	<property name="cardTheme" display-name-key="CardTheme_Display_Key"
+			  description-key="CardTheme_Desc_Key"
+			  of-type-group="cardThemeGroup" usage="input" required="false" default-value="0" />
+
+	<type-group name="cardThemeGroup">
+	  <type>Whole.None</type>
+	</type-group>
+
+	<resources>
+	  <code path="index.ts" order="1" />
+	  <css path="css/AccountCard.css" order="1" />
+	</resources>
+
+	<feature-usage>
+	  <uses-feature name="WebAPI" required="true" />
+	  <uses-feature name="Utility" required="true" />
+	</feature-usage>
+  </control>
+</manifest>

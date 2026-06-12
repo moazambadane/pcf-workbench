@@ -350,6 +350,57 @@ function buildCustomActions(): Record<string, CustomActionMock> {
       ],
       delay: 150,
     },
+    new_GetAccountEnrichment: {
+      actionName: "new_GetAccountEnrichment",
+      boundEntityName: "account",
+      mockResponse: {
+        CreditRating: "A+",
+        AnnualRevenue: 12000000,
+        EmployeeCount: 320,
+        PubliclyTraded: false,
+        StockTicker: null,
+        FundingRound: "Series B",
+        HeadquartersCountry: "United States",
+        LastAuditDate: dayjs().subtract(90, "day").toISOString(),
+        RiskScore: 18,
+        KeyDecisionMaker: "CEO — Morgan Reeves",
+      },
+      conditionalResponses: [
+        {
+          label: "Enterprise Account",
+          matchFields: { accountId: "00000000-0000-0000-0002-000000000001" },
+          response: {
+            CreditRating: "AAA",
+            AnnualRevenue: 500000000,
+            EmployeeCount: 12000,
+            PubliclyTraded: true,
+            StockTicker: "CYBR",
+            FundingRound: "IPO",
+            HeadquartersCountry: "United States",
+            LastAuditDate: dayjs().subtract(15, "day").toISOString(),
+            RiskScore: 3,
+            KeyDecisionMaker: "CFO — Jordan Price",
+          },
+        },
+        {
+          label: "High-Risk Account",
+          matchFields: { accountId: "00000000-0000-0000-0002-000000000005" },
+          response: {
+            CreditRating: "C",
+            AnnualRevenue: 200000,
+            EmployeeCount: 12,
+            PubliclyTraded: false,
+            StockTicker: null,
+            FundingRound: "Seed",
+            HeadquartersCountry: "Canada",
+            LastAuditDate: dayjs().subtract(365, "day").toISOString(),
+            RiskScore: 91,
+            KeyDecisionMaker: "Founder — Sam Blake",
+          },
+        },
+      ],
+      delay: 150,
+    },
   };
 }
 
