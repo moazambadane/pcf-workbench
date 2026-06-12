@@ -117,10 +117,27 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
 })();
 ` : "";
 
+  const isVirtual = manifest.controlType === "virtual" || manifest.controlType === "react";
+
   const bootstrapScript = `
 (function() {
   'use strict';
+
+  // ── React globals for virtual controls ────────────────────────────────────
+  // pcf-scripts externalizes React from virtual control bundles, so we must
+  // provide window.React / window.ReactDOM before the bundle executes.
+  // The parent workbench app exposes them on its own window (see main.tsx).
+  var _isVirtual = ${isVirtual};
+  if (_isVirtual) {
+    try {
+      if (!window.React)    window.React    = window.parent.React;
+      if (!window.ReactDOM) window.ReactDOM = window.parent.ReactDOM;
+    } catch(e) { /* cross-origin guard — should never happen with allow-same-origin */ }
+  }
+
   var _control = null;
+  var _reactRoot = null;   // ReactDOM.Root — virtual controls only
+  var _lastCtx   = null;   // last context passed to updateView — for re-renders
   var _notifyOutputChangedCb = null;
   var _container = document.getElementById('pcf-container');
 
@@ -132,6 +149,19 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
       }
     } catch(e) {
       console.error('notifyOutputChanged error:', e);
+    }
+    // Virtual controls: re-render with the latest context so async-loaded
+    // data is reflected immediately after notifyOutputChanged() is called.
+    _virtualRender();
+  }
+
+  function _virtualRender() {
+    if (!_isVirtual || !_control || !_reactRoot || !_lastCtx) return;
+    try {
+      var element = _control.updateView(_lastCtx);
+      _reactRoot.render(element);
+    } catch(e) {
+      console.error('virtual re-render error:', e);
     }
   }
 
@@ -246,7 +276,7 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
       factory: {
         createElement: function(t, p, c) { return { type: t, props: p, children: c }; },
         getPopupService: function() { return { createPopup: function() {}, openPopup: function() {}, closePopup: function() {}, deletePopup: function() {} }; },
-        requestRender: function() {}
+        requestRender: function() { _virtualRender(); }
       },
       events: { getEventArgs: function() { return {}; } },
       page: { appId: 'mock-app-id', entityId: '{mock-entity-id}', entityTypeName: 'contact', id: 'mock-page-id', isPageReadOnly: false }
@@ -260,8 +290,14 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
         try {
           var newBag = _buildPropertyBag(event.data.parameters);
           var ctx = _buildContext(newBag);
+          _lastCtx = ctx;
           var start = performance.now();
-          _control.updateView(ctx);
+          if (_isVirtual) {
+            var element = _control.updateView(ctx);
+            if (_reactRoot) _reactRoot.render(element);
+          } else {
+            _control.updateView(ctx);
+          }
           var dur = Math.round(performance.now() - start);
           window.parent.postMessage({ type: 'perf', event: 'updateView', duration: dur }, '*');
         } catch(e) {
@@ -274,6 +310,10 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
       if (_control && typeof _control.destroy === 'function') {
         try { _control.destroy(); } catch(e) { console.warn('destroy error:', e); }
         _control = null;
+      }
+      if (_reactRoot) {
+        try { _reactRoot.unmount(); } catch(e) { console.warn('unmount error:', e); }
+        _reactRoot = null;
       }
     }
   });
@@ -326,17 +366,35 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
       var rawBag = ${propertyBagJson};
       var bag = _buildPropertyBag(rawBag);
       var ctx = _buildContext(bag);
+      _lastCtx = ctx;
 
       _control = new CtorFn();
       var start = performance.now();
-      _control.init(ctx, _notifyOutputChanged, {}, _container);
-      var initDur = Math.round(performance.now() - start);
-      window.parent.postMessage({ type: 'perf', event: 'init', duration: initDur }, '*');
 
-      var start2 = performance.now();
-      _control.updateView(ctx);
-      var uvDur = Math.round(performance.now() - start2);
-      window.parent.postMessage({ type: 'perf', event: 'updateView', duration: uvDur }, '*');
+      if (_isVirtual) {
+        // Virtual controls: init takes (context, notifyOutputChanged, state) — no container
+        _control.init(ctx, _notifyOutputChanged, {});
+        var initDur = Math.round(performance.now() - start);
+        window.parent.postMessage({ type: 'perf', event: 'init', duration: initDur }, '*');
+
+        // Create a React root on the container and render the returned element
+        var start2 = performance.now();
+        _reactRoot = window.ReactDOM.createRoot(_container);
+        var element = _control.updateView(ctx);
+        _reactRoot.render(element);
+        var uvDur = Math.round(performance.now() - start2);
+        window.parent.postMessage({ type: 'perf', event: 'updateView', duration: uvDur }, '*');
+      } else {
+        // Standard controls: init takes (context, notifyOutputChanged, state, container)
+        _control.init(ctx, _notifyOutputChanged, {}, _container);
+        var initDur = Math.round(performance.now() - start);
+        window.parent.postMessage({ type: 'perf', event: 'init', duration: initDur }, '*');
+
+        var start2 = performance.now();
+        _control.updateView(ctx);
+        var uvDur = Math.round(performance.now() - start2);
+        window.parent.postMessage({ type: 'perf', event: 'updateView', duration: uvDur }, '*');
+      }
 
       window.parent.postMessage({ type: 'init_complete', namespace: ns, constructor: ctor }, '*');
     } catch(e) {
