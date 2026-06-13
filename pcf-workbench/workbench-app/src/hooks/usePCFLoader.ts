@@ -31,6 +31,7 @@ export function usePCFLoader() {
         manifest: parsedManifest,
         bundleContent,
         cssContents: [],
+        platformLibContents: [],
         manifestFileName: manifest.name,
         bundleFileName: bundle.name,
         loadedAt: new Date(),

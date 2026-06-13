@@ -6,7 +6,8 @@ import { useMockDataStore } from "../store/mockDataStore";
 export interface InjectionOptions {
   manifest: ParsedManifest;
   bundleContent: string;
-  cssContents?: string[];  // inline CSS to embed in the srcdoc
+  cssContents?: string[];          // inline CSS to embed in the srcdoc
+  platformLibContents?: string[];  // inline JS for platform libraries (e.g. Fluent UI UMD)
   canvasBackground?: string;
   propertyBagJson?: string;
   allocatedWidth?: number;
@@ -18,6 +19,7 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
     manifest,
     bundleContent,
     cssContents = [],
+    platformLibContents = [],
     canvasBackground = "#ffffff",
     propertyBagJson = "{}",
     allocatedWidth = 600,
@@ -119,6 +121,89 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
 
   const isVirtual = manifest.controlType === "virtual" || manifest.controlType === "react";
 
+  // ── Platform-library global injection ─────────────────────────────────────
+  // pcf-scripts externalizes platform libraries from the bundle. For each
+  // declared <platform-library> we must expose the expected global BEFORE the
+  // bundle script runs.
+  //
+  // Fluent UI 8.x: pcf-scripts externalizes @fluentui/react as the global
+  // "FluentUIReactv{major}{minor}{patch}" (e.g. 8.29.0 → FluentUIReactv8290).
+  // The UMD build sets window.FluentUIReact — we alias it to the versioned name.
+  //
+  // Strategy (in priority order):
+  //  1. Use inline content from platformLibContents (user-dropped UMD file) — always works offline
+  //  2. CDN <script src> as fallback (requires network)
+
+  const platformLibEntries = manifest.resources.filter((r) => r.type === "platform-library");
+
+  // Build CDN <script> tags for each declared platform library
+  const platformLibCdnTags = platformLibEntries
+    .map((lib) => {
+      const name = (lib.name ?? "").toLowerCase();
+      const version = lib.version ?? "";
+      if (name === "react") {
+        // React comes from window.parent — no CDN tag needed
+        return "";
+      }
+      if (name === "fluent") {
+        // unpkg CDN for @fluentui/react UMD build
+        return `<script src="https://unpkg.com/@fluentui/react@${version}/dist/fluentui-react.js" crossorigin="anonymous"></script>`;
+      }
+      return "";
+    })
+    .filter(Boolean)
+    .join("\n  ");
+
+  // Build inline alias script: after UMD files load, map FluentUIReact → FluentUIReactv8290
+  const platformLibAliasScript = (() => {
+    if (platformLibEntries.length === 0) return "";
+    const lines: string[] = ["(function() {", "  'use strict';"];
+    for (const lib of platformLibEntries) {
+      const name = (lib.name ?? "").toLowerCase();
+      const version = lib.version ?? "";
+      if (name === "fluent") {
+        const verNorm = version.replace(/\./g, "");
+        const globalName = `FluentUIReactv${verNorm}`;
+        lines.push(
+          `  // Alias FluentUIReact → ${globalName} (expected by pcf-scripts externals)`,
+          `  if (!window["${globalName}"] && window.FluentUIReact) {`,
+          `    window["${globalName}"] = window.FluentUIReact;`,
+          `  }`
+        );
+      }
+    }
+    lines.push("})();");
+    return lines.join("\n");
+  })();
+
+  // ── ComponentFramework.registerControl stub ───────────────────────────────
+  // Production PCF bundles call:
+  //   ComponentFramework.registerControl('NS.CtorName', CtorFn)
+  // when window.ComponentFramework.registerControl exists.
+  // We provide this stub so the constructor is captured in a map that
+  // initControl can look up, regardless of the namespace/window pattern used.
+  const registerControlScript = `(function() {
+  'use strict';
+  // Set React/ReactDOM globals NOW so platform-library UMDs (e.g. Fluent UI) can
+  // resolve them as externals. These UMDs run in the next <script> blocks and
+  // depend on window.React / window.ReactDOM being present at evaluation time.
+  // The bootstrapScript also sets them, but that runs after the bundle — too late.
+  try {
+    if (!window.React)    window.React    = window.parent.React;
+    if (!window.ReactDOM) window.ReactDOM = window.parent.ReactDOM;
+  } catch(e) {}
+
+  window.__pcfRegisteredControls = window.__pcfRegisteredControls || {};
+  window.ComponentFramework = window.ComponentFramework || {};
+  window.ComponentFramework.registerControl = function(fullName, ctor) {
+    window.__pcfRegisteredControls[fullName] = ctor;
+    // Also store under just the constructor name for convenience
+    var parts = fullName.split('.');
+    var ctorName = parts[parts.length - 1];
+    window.__pcfRegisteredControls[ctorName] = ctor;
+  };
+})();`;
+
   const bootstrapScript = `
 (function() {
   'use strict';
@@ -127,13 +212,12 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
   // pcf-scripts externalizes React from virtual control bundles, so we must
   // provide window.React / window.ReactDOM before the bundle executes.
   // The parent workbench app exposes them on its own window (see main.tsx).
+  // We do this unconditionally — some standard controls also externalize React.
   var _isVirtual = ${isVirtual};
-  if (_isVirtual) {
-    try {
-      if (!window.React)    window.React    = window.parent.React;
-      if (!window.ReactDOM) window.ReactDOM = window.parent.ReactDOM;
-    } catch(e) { /* cross-origin guard — should never happen with allow-same-origin */ }
-  }
+  try {
+    if (!window.React)    window.React    = window.parent.React;
+    if (!window.ReactDOM) window.ReactDOM = window.parent.ReactDOM;
+  } catch(e) { /* cross-origin guard — should never happen with allow-same-origin */ }
 
   var _control = null;
   var _reactRoot = null;   // ReactDOM.Root — virtual controls only
@@ -344,14 +428,23 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
       var ns = '${manifest.namespace}';
       var ctor = '${manifest.constructor}';
       var CtorFn = null;
-      try {
-        CtorFn = ns ? window[ns][ctor] : window[ctor];
-      } catch(e) {
-        // Try flat namespace
-        CtorFn = window[ctor] || window[ns + '.' + ctor];
-      }
+
+      // 1. Check the ComponentFramework.registerControl map first (production-style bundles)
+      var _reg = window.__pcfRegisteredControls || {};
+      if (_reg[ns + '.' + ctor]) { CtorFn = _reg[ns + '.' + ctor]; }
+      else if (_reg[ctor])        { CtorFn = _reg[ctor]; }
+
+      // 2. Try direct window namespace (sample-style bundles: window[ns][ctor])
       if (!CtorFn) {
-        // Search all window keys for the constructor
+        try {
+          CtorFn = ns ? window[ns][ctor] : window[ctor];
+        } catch(e) {
+          CtorFn = window[ctor] || window[ns + '.' + ctor];
+        }
+      }
+
+      // 3. Broad scan of all window keys
+      if (!CtorFn) {
         var keys = Object.keys(window);
         for (var i = 0; i < keys.length; i++) {
           var val = window[keys[i]];
@@ -426,6 +519,9 @@ ${httpMockScript}
   <script>
 ${xrmScript}
   </script>
+  <script>
+${registerControlScript}
+  </script>${platformLibContents.length > 0 ? platformLibContents.map((c) => `\n  <script>\n${c}\n  </script>`).join("") : ""}${platformLibCdnTags ? `\n  ${platformLibCdnTags}` : ""}${platformLibAliasScript ? `\n  <script>\n${platformLibAliasScript}\n  </script>` : ""}
   <script>
 ${bundleContent}
   </script>
