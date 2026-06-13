@@ -188,6 +188,7 @@ export const PCFCanvas: React.FC = () => {
     manifest: loadedControl.manifest,
     bundleContent: loadedControl.bundleContent,
     cssContents: loadedControl.cssContents ?? [],
+    platformLibContents: loadedControl.platformLibContents ?? [],
     canvasBackground: canvasBg,
     propertyBagJson: JSON.stringify(propertyBag),
     allocatedWidth: dimensions?.width ?? 1280,
