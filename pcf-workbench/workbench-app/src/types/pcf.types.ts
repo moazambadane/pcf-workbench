@@ -59,7 +59,8 @@ export interface PropertyBagEntry {
 export interface LoadedPCFControl {
   manifest: ParsedManifest;
   bundleContent: string;
-  cssContents: string[];  // inline CSS from any loaded .css files
+  cssContents: string[];         // inline CSS from any loaded .css files
+  platformLibContents: string[]; // inline JS for platform libraries (e.g. Fluent UI UMD)
   manifestFileName: string;
   bundleFileName: string;
   loadedAt: Date;
