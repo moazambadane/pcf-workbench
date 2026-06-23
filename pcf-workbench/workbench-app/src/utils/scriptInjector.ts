@@ -182,6 +182,24 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
   // when window.ComponentFramework.registerControl exists.
   // We provide this stub so the constructor is captured in a map that
   // initControl can look up, regardless of the namespace/window pattern used.
+
+  // pcf-scripts externalizes React as a versioned global: "Reactv{major}"
+  // (e.g. <platform-library name="React" version="16.14.0"/> → global Reactv16).
+  // The bundle's webpack runtime does `module.exports = Reactv16;` which is a bare
+  // identifier lookup. If Reactv16 is undefined the IIFE crashes before
+  // ComponentFramework.registerControl is ever called, leaving __pcfRegisteredControls
+  // empty. We must set the versioned alias BEFORE the bundle script runs.
+  const reactVersionedAliasLines = platformLibEntries
+    .filter((lib) => (lib.name ?? "").toLowerCase() === "react" && lib.version)
+    .map((lib) => {
+      const major = (lib.version ?? "").split(".")[0];
+      return major
+        ? `  if (!window["Reactv${major}"]) window["Reactv${major}"] = window.parent.React;`
+        : null;
+    })
+    .filter(Boolean)
+    .join("\n");
+
   const registerControlScript = `(function() {
   'use strict';
   // Set React/ReactDOM globals NOW so platform-library UMDs (e.g. Fluent UI) can
@@ -191,7 +209,7 @@ export function buildIframeSrcdoc(options: InjectionOptions): string {
   try {
     if (!window.React)    window.React    = window.parent.React;
     if (!window.ReactDOM) window.ReactDOM = window.parent.ReactDOM;
-  } catch(e) {}
+${reactVersionedAliasLines}  } catch(e) {}
 
   window.__pcfRegisteredControls = window.__pcfRegisteredControls || {};
   window.ComponentFramework = window.ComponentFramework || {};
